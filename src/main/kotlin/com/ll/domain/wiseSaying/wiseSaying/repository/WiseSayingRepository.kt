@@ -6,10 +6,11 @@ import com.ll.standard.util.json.JsonUtil
 import java.nio.file.Path
 
 class WiseSayingRepository {
-    val tableDirPath: Path
-        get() {
-            return AppConfig.dbDirPath.resolve("wiseSaying")
-        }
+    val tableDirPath: Path = AppConfig.dbDirPath.resolve("wiseSaying")
+
+    init {
+        tableDirPath.toFile().mkdirs()
+    }
 
     fun save(newWiseSaying: WiseSaying): WiseSaying {
         if(newWiseSaying.isNew())
@@ -49,35 +50,32 @@ class WiseSayingRepository {
     }
 
     fun isEmpty(): Boolean {
-        return tableDirPath.toFile()
+        return tableDirPath
+            .toFile()
             .listFiles()
             ?.filter { it.name != "data.json" }
             ?.none { it.name.endsWith(".json") }
             ?: true
     }
 
-    private fun mkTableDirsIfNotExists() {
-        tableDirPath.toFile().mkdirs()
-    }
-
     private fun saveOnDisk(wiseSaying: WiseSaying) {
-        mkTableDirsIfNotExists()
-
-        val wiseSayingFile = tableDirPath.resolve("${wiseSaying.id}.json")
-        wiseSayingFile.toFile().writeText(wiseSaying.jsonStr)
+       tableDirPath
+           .resolve("${wiseSaying.id}.json")
+           .toFile()
+           .writeText(wiseSaying.jsonStr)
     }
 
     private fun saveLastId(lastId: Int) {
-        mkTableDirsIfNotExists()
-
-        tableDirPath.resolve("lastId.txt")
+        tableDirPath
+            .resolve("lastId.txt")
             .toFile()
             .writeText(lastId.toString())
     }
 
     private fun loadLastId(): Int {
         return try {
-            tableDirPath.resolve("lastId.txt")
+            tableDirPath
+                .resolve("lastId.txt")
                 .toFile()
                 .readText()
                 .toInt()
@@ -93,12 +91,12 @@ class WiseSayingRepository {
     }
 
     fun clear() {
-        tableDirPath.toFile().deleteRecursively()
+        tableDirPath
+            .toFile()
+            .deleteRecursively()
     }
 
     fun build() {
-        mkTableDirsIfNotExists()
-
         val mapList = findAll()
             .map(WiseSaying::map)
 
