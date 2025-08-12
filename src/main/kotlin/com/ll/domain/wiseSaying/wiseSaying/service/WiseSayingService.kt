@@ -1,6 +1,7 @@
 package com.ll.domain.wiseSaying.wiseSaying.service
 
 import com.ll.domain.wiseSaying.wiseSaying.entity.WiseSaying
+import com.ll.domain.wiseSaying.wiseSaying.repository.WiseSayingRepository
 import com.ll.global.bean.SingletonScope
 
 class WiseSayingService {
@@ -24,5 +25,12 @@ class WiseSayingService {
 
     fun delete(wiseSaying: WiseSaying) {
         wiseSayingRepository.delete(wiseSaying)
+    }
+
+    fun modify(wiseSaying: WiseSaying, author: String, content: String) {
+        wiseSaying.modifyAuthor(author)
+        wiseSaying.modifyContent(content)
+
+        wiseSayingRepository.save(wiseSaying)
     }
 }
