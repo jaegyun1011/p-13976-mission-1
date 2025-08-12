@@ -75,4 +75,10 @@ class WiseSayingController {
 
         println("${id}번 명언을 수정하였습니다.")
     }
+
+    fun cmdBuild(rq: Rq) {
+        wiseSayingService.build()
+
+        println("data.json 파일의 내용이 갱신되었습니다.")
+    }
 }

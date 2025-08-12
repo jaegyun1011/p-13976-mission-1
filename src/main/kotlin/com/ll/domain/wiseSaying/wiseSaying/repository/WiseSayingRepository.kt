@@ -2,6 +2,7 @@ package com.ll.domain.wiseSaying.wiseSaying.repository
 
 import com.ll.domain.wiseSaying.wiseSaying.entity.WiseSaying
 import com.ll.global.app.AppConfig
+import com.ll.standard.util.json.JsonUtil
 import java.nio.file.Path
 
 class WiseSayingRepository {
@@ -66,7 +67,7 @@ class WiseSayingRepository {
         wiseSayingFile.toFile().writeText(wiseSaying.jsonStr)
     }
 
-    internal fun saveLastId(lastId: Int) {
+    private fun saveLastId(lastId: Int) {
         mkTableDirsIfNotExists()
 
         tableDirPath.resolve("lastId.txt")
@@ -74,7 +75,7 @@ class WiseSayingRepository {
             .writeText(lastId.toString())
     }
 
-    internal fun loadLastId(): Int {
+    private fun loadLastId(): Int {
         return try {
             tableDirPath.resolve("lastId.txt")
                 .toFile()
@@ -93,5 +94,20 @@ class WiseSayingRepository {
 
     fun clear() {
         tableDirPath.toFile().deleteRecursively()
+    }
+
+    fun build() {
+        mkTableDirsIfNotExists()
+
+        val mapList = findAll()
+            .map(WiseSaying::map)
+
+        JsonUtil.toString(mapList)
+            .let {
+                tableDirPath
+                    .resolve("data.json")
+                    .toFile()
+                    .writeText(it)
+            }
     }
 }

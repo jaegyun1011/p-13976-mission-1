@@ -20,6 +20,7 @@ class App {
                 "목록" -> wiseSayingController.cmdList(rq)
                 "삭제" -> wiseSayingController.cmdDelete(rq)
                 "수정" -> wiseSayingController.cmdModify(rq)
+                "빌드" -> wiseSayingController.cmdBuild(rq)
                 else -> systemController.cmdError()
             }
         }
