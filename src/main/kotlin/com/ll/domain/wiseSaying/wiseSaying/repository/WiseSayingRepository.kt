@@ -9,7 +9,9 @@ class WiseSayingRepository {
     val tableDirPath: Path = AppConfig.dbDirPath.resolve("wiseSaying")
 
     init {
-        tableDirPath.toFile().mkdirs()
+        tableDirPath
+            .toFile()
+            .mkdirs()
     }
 
     fun save(newWiseSaying: WiseSaying): WiseSaying {
@@ -79,7 +81,7 @@ class WiseSayingRepository {
                 .toFile()
                 .readText()
                 .toInt()
-        } catch (e: Exception) {
+        } catch(e: Exception) {
             0
         }
     }
@@ -94,6 +96,10 @@ class WiseSayingRepository {
         tableDirPath
             .toFile()
             .deleteRecursively()
+
+        tableDirPath
+            .toFile()
+            .mkdirs()
     }
 
     fun build() {

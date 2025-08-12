@@ -11,9 +11,6 @@ class WiseSayingControllerTest {
     @BeforeEach
     fun setUp() {
         SingletonScope.wiseSayingRepository.clear()
-        SingletonScope.wiseSayingRepository.tableDirPath
-            .toFile()
-            .mkdirs()
     }
 
     @Test
