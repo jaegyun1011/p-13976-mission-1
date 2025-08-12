@@ -10,8 +10,17 @@ class WiseSayingController {
     fun cmdWrite() {
         print("명언 : ")
         val content = readlnOrNull()!!.trim()
+        if(content == "") {
+            println("명언을 입력해주세요.")
+            return
+        }
+
         print("작가 : ")
         val author = readlnOrNull()!!.trim()
+        if(author == "") {
+            println("작가를 입력해주세요.")
+            return
+        }
 
         val newWiseSaying = wiseSayingService.write(author, content)
         println("${newWiseSaying.id}번 명언이 등록되었습니다.")

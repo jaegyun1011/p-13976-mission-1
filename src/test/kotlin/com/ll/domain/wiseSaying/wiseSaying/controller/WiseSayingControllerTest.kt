@@ -3,7 +3,6 @@ package com.ll.domain.wiseSaying.wiseSaying.controller
 import com.ll.TestRunner
 import com.ll.global.bean.SingletonScope
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 
@@ -14,7 +13,7 @@ class WiseSayingControllerTest {
     }
 
     @Test
-    fun `명언 등록`() {
+    fun `등록`() {
         val result = TestRunner.run(
             """
             등록
@@ -29,7 +28,19 @@ class WiseSayingControllerTest {
     }
 
     @Test
-    fun `명언 목록`() {
+    fun `등록_입력안함`() {
+        val result = TestRunner.run(
+            """
+            등록
+            
+        """
+        )
+
+        assertThat(result).contains("명언을 입력해주세요.")
+    }
+
+    @Test
+    fun `목록`() {
         val result = TestRunner.run(
             """
             등록
@@ -47,7 +58,18 @@ class WiseSayingControllerTest {
     }
 
     @Test
-    fun `명언 삭제`() {
+    fun `목록_empty`() {
+        val result = TestRunner.run(
+            """
+            목록
+        """
+        )
+
+        assertThat(result).contains("등록된 명언이 없습니다.")
+    }
+
+    @Test
+    fun `삭제`() {
         val result = TestRunner.run(
             """
             등록
@@ -66,7 +88,7 @@ class WiseSayingControllerTest {
     }
 
     @Test
-    fun `존재하지 않는 명언 삭제`() {
+    fun `삭제_존재하지 않는 명언`() {
         val result = TestRunner.run(
             """
             등록
@@ -83,7 +105,7 @@ class WiseSayingControllerTest {
     }
 
     @Test
-    fun `명언 수정`() {
+    fun `수정`() {
         val result = TestRunner.run(
             """
             등록
@@ -103,7 +125,7 @@ class WiseSayingControllerTest {
     }
 
     @Test
-    fun `존재하지 않는 명언 수정`() {
+    fun `수정_존재하지 않는 명언`() {
         val result = TestRunner.run(
             """
             등록
@@ -120,7 +142,7 @@ class WiseSayingControllerTest {
     }
 
     @Test
-    fun `명언 검색_내용`() {
+    fun `목록_검색_내용`() {
         val result = TestRunner.run(
             """
             등록
@@ -142,7 +164,7 @@ class WiseSayingControllerTest {
     }
 
     @Test
-    fun `명언 검색_작가`() {
+    fun `목록_검색_작가`() {
         val result = TestRunner.run(
             """
             등록
@@ -164,7 +186,27 @@ class WiseSayingControllerTest {
     }
 
     @Test
-    fun `명언 목록 페이징`() {
+    fun `목록_검색 결과 없음`() {
+        val result = TestRunner.run(
+            """
+            등록
+            명언1AA
+            작가1AA
+            등록
+            명언2BB
+            작가2AA
+            등록
+            명언3
+            작가3
+            목록?keywordType=author&keyword=CC
+        """
+        )
+
+        assertThat(result).contains("검색 키워드와 일치하는 명언이 없습니다.")
+    }
+
+    @Test
+    fun `목록_페이징`() {
         val result = TestRunner.run(
             """
             등록
