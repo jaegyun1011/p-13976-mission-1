@@ -10,10 +10,6 @@ class WiseSayingRepository {
             return AppConfig.dbDirPath.resolve("wiseSaying")
         }
 
-    init {
-        tableDirPath.toFile().mkdirs()
-    }
-
     fun save(newWiseSaying: WiseSaying): WiseSaying {
         if(newWiseSaying.isNew())
             newWiseSaying.id = getNextId()
@@ -21,6 +17,25 @@ class WiseSayingRepository {
         saveOnDisk(newWiseSaying)
 
         return newWiseSaying
+    }
+
+    fun findAll(): List<WiseSaying> {
+        return tableDirPath.toFile()
+            .listFiles()
+            ?.filter { it.name != "data.json" }
+            ?.filter { it.name.endsWith(".json") }
+            ?.map { it.readText() }
+            ?.map(WiseSaying.Companion::fromJsonStr)
+            ?.sortedByDescending { it.id }
+            .orEmpty()
+    }
+
+    fun isEmpty(): Boolean {
+        return tableDirPath.toFile()
+            .listFiles()
+            ?.filter { it.name != "data.json" }
+            ?.none { it.name.endsWith(".json") }
+            ?: true
     }
 
     private fun mkTableDirsIfNotExists() {

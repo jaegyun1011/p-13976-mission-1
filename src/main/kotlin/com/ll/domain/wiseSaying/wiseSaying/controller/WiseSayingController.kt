@@ -17,7 +17,19 @@ class WiseSayingController {
     }
 
     fun cmdList(rq: Rq) {
+        if(wiseSayingService.isEmpty()) {
+            println("등록된 명언이 없습니다.")
+            return
+        }
 
+        val wiseSayingList = wiseSayingService.findAll()
+
+        println("번호 / 작가 / 명언")
+        println("----------------------")
+
+        wiseSayingList.forEach {
+            println("${it.id} / ${it.author} / ${it.content}")
+        }
     }
 
     fun cmdDelete(rq: Rq) {
