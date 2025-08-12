@@ -34,9 +34,13 @@ class WiseSayingController {
 
     fun cmdDelete(rq: Rq) {
         val id = rq.getParamValueAsInt("id", 0)
+        if(id == 0) {
+            println("잘못된 ID입니다.")
+            return
+        }
 
         val wiseSaying = wiseSayingService.findById(id)
-        if (wiseSaying == null) {
+        if(wiseSaying == null) {
             println("${id}번 명언은 존재하지 않습니다.")
             return
         }
@@ -48,9 +52,13 @@ class WiseSayingController {
 
     fun cmdModify(rq: Rq) {
         val id = rq.getParamValueAsInt("id", 0)
+        if(id == 0) {
+            println("잘못된 ID입니다.")
+            return
+        }
 
         val wiseSaying = wiseSayingService.findById(id)
-        if (wiseSaying == null) {
+        if(wiseSaying == null) {
             println("${id}번 명언은 존재하지 않습니다.")
             return
         }
