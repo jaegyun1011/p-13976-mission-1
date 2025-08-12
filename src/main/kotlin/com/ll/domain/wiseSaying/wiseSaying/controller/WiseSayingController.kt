@@ -4,7 +4,8 @@ import com.ll.global.rq.Rq
 
 class WiseSayingController {
     fun cmdWrite(rq: Rq) {
-
+        print("명언 : ")
+        print("작가 : ")
     }
 
     fun cmdList(rq: Rq) {
