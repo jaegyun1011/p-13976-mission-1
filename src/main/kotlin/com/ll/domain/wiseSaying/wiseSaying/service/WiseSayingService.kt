@@ -15,8 +15,8 @@ class WiseSayingService {
         return wiseSayingRepository.findById(id)
     }
 
-    fun findPageAll(page: Int = 1): PageDto {
-        return wiseSayingRepository.findPageAll(page)
+    fun findPageSearch(page: Int, keywordType: String, keyword: String): PageDto {
+        return wiseSayingRepository.findPageSearch(page, keywordType, keyword)
     }
 
     fun isEmpty(): Boolean {

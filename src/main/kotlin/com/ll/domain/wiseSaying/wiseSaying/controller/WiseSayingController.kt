@@ -24,7 +24,22 @@ class WiseSayingController {
         }
 
         val page: Int = rq.getParamAsInt("page", 1)
-        val pageDto = wiseSayingService.findPageAll(page)
+        val keywordType = rq.getParam("keywordType", "")
+        val keyword = rq.getParam("keyword", "")
+
+        val pageDto = wiseSayingService.findPageSearch(page, keywordType, keyword)
+
+        if(pageDto.wiseSayingList.isEmpty()) {
+            println("검색 키워드와 일치하는 명언이 없습니다.")
+            return
+        }
+
+        if(pageDto.search) {
+            println("----------------------")
+            println("검색타입 : $keywordType")
+            println("검색어 : $keyword")
+            println("----------------------")
+        }
 
         println("번호 / 작가 / 명언")
         println("----------------------")
