@@ -19,6 +19,23 @@ class WiseSayingRepository {
         return newWiseSaying
     }
 
+    fun delete(wiseSaying: WiseSaying) {
+        tableDirPath
+            .resolve("${wiseSaying.id}.json")
+            .toFile()
+            .takeIf { it.exists() }
+            ?.delete()
+    }
+
+    fun findById(id: Int): WiseSaying? {
+        return tableDirPath
+            .resolve("$id.json")
+            .toFile()
+            .takeIf { it.exists() }
+            ?.readText()
+            ?.let(WiseSaying.Companion::fromJsonStr)
+    }
+
     fun findAll(): List<WiseSaying> {
         return tableDirPath.toFile()
             .listFiles()

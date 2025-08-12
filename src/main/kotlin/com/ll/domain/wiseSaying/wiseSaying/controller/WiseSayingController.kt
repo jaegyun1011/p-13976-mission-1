@@ -33,7 +33,19 @@ class WiseSayingController {
     }
 
     fun cmdDelete(rq: Rq) {
+        val id = rq.getParamValueAsInt("id", 0)
 
+        val wiseSaying = wiseSayingService
+            .findById(id)
+
+        if (wiseSaying == null) {
+            println("${id}번 명언은 존재하지 않습니다.")
+            return
+        }
+
+        wiseSayingService.delete(wiseSaying)
+
+        println("${id}번 명언을 삭제하였습니다.")
     }
 
     fun cmdModify(rq: Rq) {

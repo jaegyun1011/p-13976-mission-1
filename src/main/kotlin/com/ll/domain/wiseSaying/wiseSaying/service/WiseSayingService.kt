@@ -10,11 +10,19 @@ class WiseSayingService {
         return wiseSayingRepository.save(WiseSaying(0, author, content))
     }
 
-    fun isEmpty(): Boolean {
-        return wiseSayingRepository.isEmpty()
+    fun findById(id: Int): WiseSaying? {
+        return wiseSayingRepository.findById(id)
     }
 
     fun findAll(): List<WiseSaying> {
         return wiseSayingRepository.findAll()
+    }
+
+    fun isEmpty(): Boolean {
+        return wiseSayingRepository.isEmpty()
+    }
+
+    fun delete(wiseSaying: WiseSaying) {
+        wiseSayingRepository.delete(wiseSaying)
     }
 }
