@@ -62,7 +62,7 @@ class WiseSayingController {
     }
 
     private fun findById(rq: Rq): WiseSaying? {
-        val id = rq.getParamValueAsInt("id", 0)
+        val id = rq.getParamAsInt("id", 0)
         if(id == 0) {
             println("잘못된 ID입니다.")
             return null

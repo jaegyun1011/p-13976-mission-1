@@ -1,46 +1,31 @@
 package com.ll.global.rq
 
 class Rq(cmd: String) {
-    val action: String
+    val command: String
     private val paramMap = mutableMapOf<String, String>()
 
     init {
         val cmdBits = cmd.split("?", limit = 2)
-
-        action = cmdBits[0].trim()
+        command = cmdBits[0].trim()
 
         if (cmdBits.size == 2) {
             val queryStr = cmdBits[1]
-            val queryBits = queryStr.split("&")
-
-            for (queryBit in queryBits) {
-                val queryParamBits = queryBit.split("=", limit = 2)
-
-                if (queryParamBits.size != 2) {
-                    continue
+            queryStr.split("&").forEach { param ->
+                val token = param.split("=", limit = 2)
+                if(token.size == 2) {
+                    paramMap[token[0]] = token[1]
                 }
-
-                val paramName = queryParamBits[0].trim()
-                val paramValue = queryParamBits[1].trim()
-
-                paramMap[paramName] = paramValue
             }
         }
     }
 
-    private fun getParamValue(name: String): String? {
-        return paramMap[name]
+    fun getParam(name: String, default: String): String {
+        return paramMap[name] ?: default
     }
 
-    fun getParamValue(name: String, default: String): String {
-        return getParamValue(name) ?: default
-    }
-
-    fun getParamValueAsInt(name: String, default: Int): Int {
-        val paramValue = getParamValue(name) ?: return default
-
+    fun getParamAsInt(name: String, default: Int): Int {
         return try {
-            paramValue.toInt()
+            paramMap[name]?.toInt() ?: default
         } catch (e: NumberFormatException) {
             default
         }

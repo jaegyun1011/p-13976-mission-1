@@ -14,7 +14,7 @@ class App {
             val input = readlnOrNull()!!.trim()
             val rq = Rq(input)
 
-            when(rq.action) {
+            when(rq.command) {
                 "종료" -> break
                 "등록" -> wiseSayingController.cmdWrite(rq)
                 "목록" -> wiseSayingController.cmdList(rq)
