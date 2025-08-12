@@ -1,5 +1,6 @@
 package com.ll.domain.wiseSaying.wiseSaying.service
 
+import com.ll.domain.wiseSaying.dto.PageDto
 import com.ll.domain.wiseSaying.wiseSaying.entity.WiseSaying
 import com.ll.global.bean.SingletonScope
 
@@ -14,8 +15,8 @@ class WiseSayingService {
         return wiseSayingRepository.findById(id)
     }
 
-    fun findAll(): List<WiseSaying> {
-        return wiseSayingRepository.findAll()
+    fun findPageAll(page: Int = 1): PageDto {
+        return wiseSayingRepository.findPageAll(page)
     }
 
     fun isEmpty(): Boolean {

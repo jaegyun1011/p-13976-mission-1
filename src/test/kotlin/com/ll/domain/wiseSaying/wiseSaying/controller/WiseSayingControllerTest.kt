@@ -57,10 +57,12 @@ class WiseSayingControllerTest {
             명언2
             작가2
             삭제?id=1
+            목록
         """
         )
 
         assertThat(result).contains("1번 명언을 삭제하였습니다.")
+        assertThat(result).doesNotContain("1 / 작가1 / 명언1")
     }
 
     @Test
@@ -115,5 +117,87 @@ class WiseSayingControllerTest {
         )
 
         assertThat(result).contains("3번 명언은 존재하지 않습니다.")
+    }
+
+    @Test
+    fun `명언 검색_내용`() {
+        val result = TestRunner.run(
+            """
+            등록
+            명언1AA
+            작가1AA
+            등록
+            명언2BB
+            작가2AA
+            등록
+            명언3
+            작가3
+            목록?keywordType=content&keyword=AA
+        """
+        )
+
+        assertThat(result).contains("1 / 작가1AA / 명언1AA")
+        assertThat(result).doesNotContain("2 / 작가2AA / 명언2BB")
+        assertThat(result).doesNotContain("3 / 작가3 / 명언3")
+    }
+
+    @Test
+    fun `명언 검색_작가`() {
+        val result = TestRunner.run(
+            """
+            등록
+            명언1AA
+            작가1AA
+            등록
+            명언2BB
+            작가2AA
+            등록
+            명언3
+            작가3
+            목록?keywordType=author&keyword=AA
+        """
+        )
+
+        assertThat(result).contains("1 / 작가1AA / 명언1AA")
+        assertThat(result).contains("2 / 작가2AA / 명언2BB")
+        assertThat(result).doesNotContain("3 / 작가3 / 명언3")
+    }
+
+    @Test
+    fun `명언 목록 페이징`() {
+        val result = TestRunner.run(
+            """
+            등록
+            명언1
+            작가1
+            등록
+            명언2
+            작가2
+            등록
+            명언3
+            작가3
+            등록
+            명언4
+            작가4
+            등록
+            명언5
+            작가5
+            등록
+            명언6
+            작가6
+            등록
+            명언7
+            작가7
+            목록?page=2
+        """
+        )
+
+        assertThat(result).contains("1 / 작가1 / 명언1")
+        assertThat(result).contains("2 / 작가2 / 명언2")
+        assertThat(result).doesNotContain("3 / 작가3 / 명언3")
+        assertThat(result).doesNotContain("4 / 작가4 / 명언4")
+        assertThat(result).doesNotContain("5 / 작가5 / 명언5")
+        assertThat(result).doesNotContain("6 / 작가6 / 명언6")
+        assertThat(result).doesNotContain("7 / 작가7 / 명언7")
     }
 }

@@ -7,7 +7,7 @@ import com.ll.global.rq.Rq
 class WiseSayingController {
     val wiseSayingService = SingletonScope.wiseSayingService
 
-    fun cmdWrite(rq: Rq) {
+    fun cmdWrite() {
         print("명언 : ")
         val content = readlnOrNull()!!.trim()
         print("작가 : ")
@@ -22,13 +22,19 @@ class WiseSayingController {
             println("등록된 명언이 없습니다.")
             return
         }
+
+        val page: Int = rq.getParamAsInt("page", 1)
+        val pageDto = wiseSayingService.findPageAll(page)
+
         println("번호 / 작가 / 명언")
         println("----------------------")
 
-        val wiseSayingList = wiseSayingService.findAll()
-        wiseSayingList.forEach {
+        pageDto.wiseSayingList.forEach {
             println("${it.id} / ${it.author} / ${it.content}")
         }
+
+        println("----------------------")
+        println("페이지 : ${pageDto.currentPage} / [${pageDto.totalPage}]")
     }
 
     fun cmdDelete(rq: Rq) {
@@ -55,7 +61,7 @@ class WiseSayingController {
         println("${wiseSaying.id}번 명언을 수정하였습니다.")
     }
 
-    fun cmdBuild(rq: Rq) {
+    fun cmdBuild() {
         wiseSayingService.build()
 
         println("data.json 파일의 내용이 갱신되었습니다.")

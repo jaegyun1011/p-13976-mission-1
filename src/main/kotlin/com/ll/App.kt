@@ -16,11 +16,11 @@ class App {
 
             when(rq.command) {
                 "종료" -> break
-                "등록" -> wiseSayingController.cmdWrite(rq)
+                "등록" -> wiseSayingController.cmdWrite()
                 "목록" -> wiseSayingController.cmdList(rq)
                 "삭제" -> wiseSayingController.cmdDelete(rq)
                 "수정" -> wiseSayingController.cmdModify(rq)
-                "빌드" -> wiseSayingController.cmdBuild(rq)
+                "빌드" -> wiseSayingController.cmdBuild()
                 else -> systemController.cmdError()
             }
         }
